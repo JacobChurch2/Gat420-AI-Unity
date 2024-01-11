@@ -249,6 +249,7 @@ MonoBehaviour:
   agents:
   - {fileID: 3676703687336868005, guid: 942d13a963934a44aa419a574228cede, type: 3}
   - {fileID: 3676703687336868005, guid: aa2aabcca2417714ea001d9efb00834f, type: 3}
+  - {fileID: 3676703687336868005, guid: ff029efe31b39504caee0c6c0ad29912, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 8
