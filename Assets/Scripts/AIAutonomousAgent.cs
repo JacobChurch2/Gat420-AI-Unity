@@ -47,12 +47,12 @@ public class AIAutonomousAgent : AIAgent
 		//obstacle avoidance
 		if (obstaclePerception != null)
 		{
-			if(((AIRaycastPerseption)obstaclePerception).CheckDirection(Vector3.forward))
+			if(((AISpherecastPerception)obstaclePerception).CheckDirection(Vector3.forward))
 			{
 				Vector3 open = Vector3.zero;
-				if (((AIRaycastPerseption)obstaclePerception).GetOpenDirection(ref open))
+				if (((AISpherecastPerception)obstaclePerception).GetOpenDirection(ref open))
 				{
-					movement.ApplyForce(GetSteeringForce(open) * 5);
+					movement.ApplyForce(GetSteeringForce(open) * 100);
 				}
 			}
 			var gameObjects = obstaclePerception.GetGameObjects();
@@ -64,7 +64,7 @@ public class AIAutonomousAgent : AIAgent
 		acceleration.y = 0;
 		movement.acceleration = acceleration;
 
-        transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10), new Vector3(10, 10, 10));
+        //transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10), new Vector3(10, 10, 10));
     }
 
     private Vector3 Seek(GameObject target)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AIRaycastPerseption : AIPerception
+public class AIRaycastPerception : AIPerception
 {
 	[SerializeField][Range(2, 20)] int numRaycast = 2;
 
