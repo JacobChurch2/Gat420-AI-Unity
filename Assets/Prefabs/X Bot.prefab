@@ -57,6 +57,10 @@ PrefabInstance:
       value: X Bot
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 9b1baccd594ab6a4c861ccd0c98594cc, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 0c7438d6f5c71f8488db2de35fd8d740, type: 3}
+    - target: {fileID: 5866666021909216657, guid: 9b1baccd594ab6a4c861ccd0c98594cc, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 7f4fa7f2cca704d4db281bc9e26c8b81, type: 2}
@@ -117,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d752addda84674a9478f1bad762832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNode: {fileID: 0}
+  agent: {fileID: 0}
+  pathType: 1
 --- !u!114 &6316475621973093872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 5615879849528620958}
   path: {fileID: 4573179797946100074}
+  startNode: {fileID: 0}
 --- !u!54 &3925292049326806350
 Rigidbody:
   m_ObjectHideFlags: 0

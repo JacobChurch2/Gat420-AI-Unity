@@ -33,7 +33,7 @@ public class AINavNode : MonoBehaviour
 		{
 			if (navPath.targetNode == this)
 			{
-				navPath.targetNode = GetRandomNeighbor();
+				navPath.targetNode = navPath.GetNextAINavNode(navPath.targetNode);
 			}
 		}
 	}
