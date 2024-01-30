@@ -14,6 +14,26 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: kachujin_MAT_
     second: {fileID: 2100000, guid: a02de834bfba0254aae6a46e324490d5, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Kachujin_diffuse
+    second: {fileID: 2800000, guid: a9706059a3298274592f29c7b5b9ec48, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Kachujin_diffuse_body
+    second: {fileID: 2800000, guid: 091515874d303c04ba276d0641454443, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Kachujin_normal
+    second: {fileID: 2800000, guid: 43ac24025ff64a64fb3da3bee7365825, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Kachujin_specular
+    second: {fileID: 2800000, guid: 353431f4d73c326489156bb4319814c3, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -87,7 +107,13 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips: []
+  referencedClips:
+  - 153357bfb83e9054b971ab11f6f9d25a
+  - 4dbf5ecc87b9ebb45b29e0f183e8dcdd
+  - 7a9b1e2651de4de4a8ca156231794c36
+  - ce7098fd8a612be428503d03ff461c7c
+  - f6cc9b5beb0821646b15b7d3275f5658
+  - 283dc70724c4a2f499e96f4e2105b029
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
