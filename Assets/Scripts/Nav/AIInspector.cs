@@ -16,12 +16,12 @@ public class AIInspector : EditorWindow
         GUILayout.BeginHorizontal();
         GUILayout.Label("Actions", EditorStyles.boldLabel);
 
-        if (GUILayout.Button("ViewAgent"))
+        if (GUILayout.Button("View Agent"))
         {
             Camera camera = Camera.main;
             GameObject go = Selection.activeGameObject;
 
-            if(go.TryGetComponent<AINavAgent>(out AINavAgent agent))
+            if(go.TryGetComponent<AIAgent>(out AIAgent agent))
             {
                 camera.transform.parent = agent.transform;
                 camera.transform.localPosition = Vector3.back * 5 + Vector3.up * 2;

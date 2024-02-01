@@ -4,11 +4,13 @@ using UnityEngine;
 
 public abstract class AIState
 {
-    private AIStateAgent agent;
+    protected AIStateAgent agent;
     public AIState(AIStateAgent agent)
     {
         this.agent = agent;
     }
+
+    public string name { get { return GetType().Name; } }
 
     public abstract void OnEnter();
     public abstract void OnExit();
