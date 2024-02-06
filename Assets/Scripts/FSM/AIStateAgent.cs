@@ -8,9 +8,19 @@ public class AIStateAgent : AIAgent
 	public AIPerception? enemyPereption;
 	public AIPerception? friendPereption;
 	public bool fleer = false;
-	public float health = 100;
+
+
+	//parameters
+	public ValueRef<float> health = new ValueRef<float>(); // -> memory
+	public ValueRef<float> timer = new ValueRef<float>();
+	public ValueRef<float> destinationDistance = new ValueRef<float>();
+
+	public ValueRef<bool> enemySeen = new ValueRef<bool>();
+	public ValueRef<float> enemyDistance = new ValueRef<float>();
+	public ValueRef<float> enemyHealth = new ValueRef<float>();
 
 	public AIStateMachine stateMachine = new AIStateMachine();
+	public AIStateAgent enemy { get; private set; }
 
 	private void Start()
 	{
@@ -30,7 +40,21 @@ public class AIStateAgent : AIAgent
 
 	private void Update()
 	{
-		if(health <= 0) 
+		//update parameters
+		timer.value -= Time.deltaTime;
+		destinationDistance.value = Vector3.Distance(transform.position, movement.destination);
+
+		var enemies = enemyPereption.GetGameObjects();
+		enemySeen.value = (enemies.Length > 0);
+		if (enemySeen)
+		{
+			enemy = enemies[0].TryGetComponent(out AIStateAgent stateAgent) ? stateAgent : null;
+			enemyDistance.value = Vector3.Distance(transform.position, enemy.transform.position);
+			enemyHealth.value = enemy.health;
+		}
+
+		//from any state (health -> death)
+		if (health <= 0)
 		{
 			stateMachine.SetState(nameof(AIDeathState));
 		}
@@ -55,7 +79,7 @@ public class AIStateAgent : AIAgent
 
 	public void ApplyDamage(float damage)
 	{
-		health -= damage;
+		health.value -= damage;
 		if (health > 0) stateMachine.SetState(nameof(AIHitState));
 	}
 
@@ -63,8 +87,26 @@ public class AIStateAgent : AIAgent
 	{
 		var enemies = enemyPereption.GetGameObjects();
 		if (fleer && enemies.Length > 0)
-        {
-            stateMachine.SetState(nameof(AIFleeingState));
-        }
-    }
+		{
+			stateMachine.SetState(nameof(AIFleeingState));
+		}
+	}
+
+	private void Attack()
+	{
+		Debug.Log("Attack");
+		// check for collision with surroundings
+		var colliders = Physics.OverlapSphere(transform.position, 1);
+		foreach (var collider in colliders)
+		{
+			// don't hit self or objects with the same tag
+			if (collider.gameObject == gameObject || collider.gameObject.CompareTag(gameObject.tag)) continue;
+
+			// check if collider object is a state agent, reduce health
+			if (collider.gameObject.TryGetComponent<AIStateAgent>(out var stateAgent))
+			{
+				stateAgent.ApplyDamage(Random.Range(20, 50));
+			}
+		}
+	}
 }
