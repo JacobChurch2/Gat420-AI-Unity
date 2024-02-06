@@ -5,7 +5,9 @@ using UnityEngine;
 public class AIStateAgent : AIAgent
 {
 	public Animator animator;
-	public AIPerception enemyPereption;
+	public AIPerception? enemyPereption;
+	public AIPerception? friendPereption;
+	public bool fleer = false;
 	public float health = 100;
 
 	public AIStateMachine stateMachine = new AIStateMachine();
@@ -18,6 +20,10 @@ public class AIStateAgent : AIAgent
 		stateMachine.AddState(nameof(AIAttackState), new AIAttackState(this));
 		stateMachine.AddState(nameof(AIPatrolState), new AIPatrolState(this));
 		stateMachine.AddState(nameof(AIChaseState), new AIChaseState(this));
+		stateMachine.AddState(nameof(AIHitState), new AIHitState(this));
+		stateMachine.AddState(nameof(AIWavingState), new AIWavingState(this));
+		stateMachine.AddState(nameof(AIDancingState), new AIDancingState(this));
+		stateMachine.AddState(nameof(AIFleeingState), new AIFleeingState(this));
 
 		stateMachine.SetState(nameof(AIIdleState));
 	}
@@ -46,4 +52,19 @@ public class AIStateAgent : AIAgent
 		// draw label with current state name
 		GUI.Label(rect, stateMachine.CurrentState.name);
 	}
+
+	public void ApplyDamage(float damage)
+	{
+		health -= damage;
+		if (health > 0) stateMachine.SetState(nameof(AIHitState));
+	}
+
+	public void CheckForOpps()
+	{
+		var enemies = enemyPereption.GetGameObjects();
+		if (fleer && enemies.Length > 0)
+        {
+            stateMachine.SetState(nameof(AIFleeingState));
+        }
+    }
 }

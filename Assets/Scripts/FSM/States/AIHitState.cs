@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDeathState : AIState
+public class AIHitState : AIState
 {
 	float timer = 0;
 
-	public AIDeathState(AIStateAgent agent) : base(agent)
+	public AIHitState(AIStateAgent agent) : base(agent)
 	{
 	}
 
@@ -15,21 +15,22 @@ public class AIDeathState : AIState
 		agent.movement.Stop();
 		agent.movement.velocity = Vector3.zero;
 
-		agent.animator?.SetTrigger("Death");
-		timer = Time.time + 2;
+		agent.animator?.SetTrigger("Hit");
+		timer = Time.time + 0.5f;
 	}
 
 	public override void OnExit()
 	{
-		if (Time.time > timer)
-		{
-			GameObject.Destroy(agent.gameObject);
-		}
 
 	}
 
 	public override void OnUpdate()
 	{
-		
+		if (Time.time >= timer)
+		{
+			agent.stateMachine.SetState(nameof(AIIdleState));
+		}
 	}
+
+	
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class AIIdleState : AIState
@@ -12,6 +13,9 @@ public class AIIdleState : AIState
 
 	public override void OnEnter()
 	{
+		agent.movement.Stop();
+		agent.movement.velocity = Vector3.zero;
+
 		timer = Time.time + Random.Range(1,2);
 	}
 
@@ -22,14 +26,24 @@ public class AIIdleState : AIState
 
 	public override void OnUpdate()
 	{
+		agent.CheckForOpps();
 		if (Time.time >= timer) 
 		{
 			agent.stateMachine.SetState(nameof(AIPatrolState));
 		}
 		var enemies = agent.enemyPereption.GetGameObjects();
-		if (enemies.Length > 0)
+		if (!agent.fleer && enemies.Length > 0)
 		{
-			agent.stateMachine.SetState(nameof(AIAttackState));
+			agent.stateMachine.SetState(nameof(AIChaseState));
+		}
+
+		if (agent.friendPereption)
+		{
+			var friends = agent.friendPereption.GetGameObjects();
+			if (friends.Length > 0)
+			{
+				agent.stateMachine.SetState(nameof(AIWavingState));
+			}
 		}
 	}
 }

@@ -172,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 0c7438d6f5c71f8488db2de35fd8d740, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 3bafe77f88fe5f94d8823f014eba9f4c, type: 2}
+      objectReference: {fileID: 9100000, guid: 3d158be959a1b2f439bca65571927eb5, type: 2}
     - target: {fileID: 5866666021909216657, guid: 0c7438d6f5c71f8488db2de35fd8d740, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -242,6 +242,8 @@ MonoBehaviour:
   movement: {fileID: 6647114099468722466}
   animator: {fileID: 137947282769202564}
   enemyPereption: {fileID: 175172246563430512}
+  friendPereption: {fileID: 0}
+  fleer: 0
   health: 100
 --- !u!114 &6647114099468722466
 MonoBehaviour:
@@ -395,5 +397,5 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  numRaycast: 6
-  radius: 0.5
+  numRaycast: 30
+  radius: 0.25

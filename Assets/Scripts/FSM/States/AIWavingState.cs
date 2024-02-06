@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-public class AIDeathState : AIState
+public class AIWavingState : AIState
 {
 	float timer = 0;
-
-	public AIDeathState(AIStateAgent agent) : base(agent)
+	public AIWavingState(AIStateAgent agent) : base(agent)
 	{
 	}
 
@@ -15,21 +15,21 @@ public class AIDeathState : AIState
 		agent.movement.Stop();
 		agent.movement.velocity = Vector3.zero;
 
-		agent.animator?.SetTrigger("Death");
-		timer = Time.time + 2;
+		agent.animator?.SetTrigger("Wave");
+		timer = Time.time + 1;
 	}
 
 	public override void OnExit()
 	{
-		if (Time.time > timer)
-		{
-			GameObject.Destroy(agent.gameObject);
-		}
 
 	}
 
 	public override void OnUpdate()
 	{
-		
+		agent.CheckForOpps();
+		if (Time.time > timer) 
+		{
+			agent.stateMachine.SetState(nameof(AIDancingState));
+		}
 	}
 }

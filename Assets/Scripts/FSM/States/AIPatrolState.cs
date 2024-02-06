@@ -12,6 +12,8 @@ public class AIPatrolState : AIState
 
 	public override void OnEnter()
 	{
+		agent.movement.Resume();
+
 		var navNode = AINavNode.GetRandomAINavNode();
 		destination = navNode.transform.position;
 	}
@@ -23,6 +25,7 @@ public class AIPatrolState : AIState
 
 	public override void OnUpdate()
 	{
+		agent.CheckForOpps();
 		agent.movement.MoveTowards(destination);
 		if(Vector3.Distance(agent.transform.position, destination) < 1)
 		{
@@ -30,9 +33,18 @@ public class AIPatrolState : AIState
 		}
 
 		var enemies = agent.enemyPereption.GetGameObjects();
-		if(enemies.Length > 0 )
+		if(!agent.fleer && enemies.Length > 0 )
 		{
 			agent.stateMachine.SetState(nameof(AIChaseState));
+		}
+
+		if (agent.friendPereption)
+		{
+			var friends = agent.friendPereption.GetGameObjects();
+			if (friends.Length > 0)
+			{
+				agent.stateMachine.SetState(nameof(AIWavingState));
+			}
 		}
 	}
 }

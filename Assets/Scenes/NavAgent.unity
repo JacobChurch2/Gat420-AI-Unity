@@ -3969,6 +3969,7 @@ MonoBehaviour:
   agents:
   - {fileID: 5517852393505493718, guid: b70dbdc57d0ae1b488840a60f1a77b70, type: 3}
   - {fileID: 5517852393505493718, guid: 15919947768090b40bc259f018427e19, type: 3}
+  - {fileID: 5517852393505493718, guid: 17b7a6fc145eb2e41ad94188772dcf37, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -5814,8 +5815,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824757501}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21342057, y: -0.66575134, z: 0.20827352, w: 0.68399495}
-  m_LocalPosition: {x: 20.082113, y: 13.350802, z: -0.5638498}
+  m_LocalRotation: {x: 0.22191662, y: 0.011280059, z: -0.0038883085, w: 0.97499263}
+  m_LocalPosition: {x: 0.247837, y: 5.2741213, z: -9.556654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

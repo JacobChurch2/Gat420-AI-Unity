@@ -13,6 +13,8 @@ public class AIChaseState : AIState
 
 	public override void OnEnter()
 	{
+		agent.movement.Resume();
+
 		initialSpeed = agent.movement.maxSpeed;
 		agent.movement.maxSpeed *= 2;
 	}
@@ -28,7 +30,8 @@ public class AIChaseState : AIState
 		if(enemies.Length > 0)
 		{
 			var enemy = enemies[0];
-			if(Vector3.Distance(agent.transform.position, enemy.transform.position) < 1.25f)
+			agent.movement.MoveTowards(enemy.transform.position);
+			if(Vector3.Distance(agent.transform.position, enemy.transform.position) < 1f)
 			{
 				agent.stateMachine.SetState(nameof(AIAttackState));
 			}
