@@ -9,6 +9,7 @@ public abstract class AIState
     {
         this.agent = agent;
     }
+    public List<AIStateTransition> transitions { get; set; } = new List<AIStateTransition>();
 
     public string name { get { return GetType().Name; } }
 

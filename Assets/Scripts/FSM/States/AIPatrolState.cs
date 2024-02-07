@@ -8,6 +8,13 @@ public class AIPatrolState : AIState
 
 	public AIPatrolState(AIStateAgent agent) : base(agent)
 	{
+		AIStateTransition transition = new AIStateTransition(nameof(AIIdleState));
+		transition.AddCondition(new FloatCondition(agent.destinationDistance, Condition.Predicate.LESS, 1));
+		transitions.Add(transition);
+
+		transition = new AIStateTransition(nameof(AIChaseState));
+		transition.AddCondition(new BoolCondition(agent.enemySeen));
+		transitions.Add(transition);
 	}
 
 	public override void OnEnter()
@@ -25,27 +32,17 @@ public class AIPatrolState : AIState
 
 	public override void OnUpdate()
 	{
-		agent.CheckForOpps();
+		//agent.CheckForOpps();
 		agent.movement.MoveTowards(destination);
-		if(Vector3.Distance(agent.transform.position, destination) < 1)
-		{
-			agent.stateMachine.SetState(nameof(AIIdleState));
-		}
 
-		var enemies = agent.enemyPereption.GetGameObjects();
-		if(!agent.fleer && enemies.Length > 0 )
-		{
-			agent.stateMachine.SetState(nameof(AIChaseState));
-		}
-
-		if (agent.friendPereption)
-		{
-			var friends = agent.friendPereption.GetGameObjects();
-			if (friends.Length > 0)
-			{
-				agent.stateMachine.SetState(nameof(AIWavingState));
-			}
-		}
+		//if (agent.friendPereption)
+		//{
+		//	var friends = agent.friendPereption.GetGameObjects();
+		//	if (friends.Length > 0)
+		//	{
+		//		agent.stateMachine.SetState(nameof(AIWavingState));
+		//	}
+		//}
 	}
 }
    

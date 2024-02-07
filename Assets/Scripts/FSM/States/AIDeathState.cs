@@ -21,15 +21,14 @@ public class AIDeathState : AIState
 
 	public override void OnExit()
 	{
-		if (Time.time > timer)
-		{
-			GameObject.Destroy(agent.gameObject);
-		}
 
 	}
 
 	public override void OnUpdate()
 	{
-		
+		if (Time.time > timer)
+		{
+			GameObject.Destroy(agent.gameObject);
+		}
 	}
 }

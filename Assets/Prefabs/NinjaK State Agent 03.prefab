@@ -221,7 +221,18 @@ MonoBehaviour:
   enemyPereption: {fileID: 175172246563430512}
   friendPereption: {fileID: -5212066361272465094}
   fleer: 1
-  health: 100
+  health:
+    value: 100
+  timer:
+    value: 0
+  destinationDistance:
+    value: 0
+  enemySeen:
+    value: 0
+  enemyDistance:
+    value: 0
+  enemyHealth:
+    value: 0
 --- !u!114 &6647114099468722466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagName: Agent02
   distance: 10
-  maxAngle: 110
+  maxAngle: 360
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
