@@ -26,7 +26,7 @@ public class AIWavingState : AIState
 
 	public override void OnUpdate()
 	{
-		//agent.CheckForOpps();
+		agent.CheckForOpps();
 		if (Time.time > timer) 
 		{
 			agent.stateMachine.SetState(nameof(AIDancingState));

@@ -31,15 +31,15 @@ public class AIIdleState : AIState
 
 	public override void OnUpdate()
 	{
-		//agent.CheckForOpps();
+		agent.CheckForOpps();
 
-		//if (agent.friendPereption)
-		//{
-		//	var friends = agent.friendPereption.GetGameObjects();
-		//	if (friends.Length > 0)
-		//	{
-		//		agent.stateMachine.SetState(nameof(AIWavingState));
-		//	}
-		//}
+		if (agent.friendPereption)
+		{
+			var friends = agent.friendPereption.GetGameObjects();
+			if (friends.Length > 0)
+			{
+				agent.stateMachine.SetState(nameof(AIWavingState));
+			}
+		}
 	}
 }

@@ -6,8 +6,8 @@ public class AIStateAgent : AIAgent
 {
 	public Animator animator;
 	public AIPerception? enemyPereption;
-	//public AIPerception? friendPereption;
-	//public bool fleer = false;
+	public AIPerception? friendPereption;
+	public bool fleer = false;
 
 
 	//parameters
@@ -31,9 +31,9 @@ public class AIStateAgent : AIAgent
 		stateMachine.AddState(nameof(AIPatrolState), new AIPatrolState(this));
 		stateMachine.AddState(nameof(AIChaseState), new AIChaseState(this));
 		stateMachine.AddState(nameof(AIHitState), new AIHitState(this));
-		//stateMachine.AddState(nameof(AIWavingState), new AIWavingState(this));
-		//stateMachine.AddState(nameof(AIDancingState), new AIDancingState(this));
-		//stateMachine.AddState(nameof(AIFleeingState), new AIFleeingState(this));
+		stateMachine.AddState(nameof(AIWavingState), new AIWavingState(this));
+		stateMachine.AddState(nameof(AIDancingState), new AIDancingState(this));
+		stateMachine.AddState(nameof(AIFleeingState), new AIFleeingState(this));
 
 		stateMachine.SetState(nameof(AIIdleState));
 	}
@@ -94,14 +94,14 @@ public class AIStateAgent : AIAgent
 		if (health > 0) stateMachine.SetState(nameof(AIHitState));
 	}
 
-	//public void CheckForOpps()
-	//{
-	//	var enemies = enemyPereption.GetGameObjects();
-	//	if (fleer && enemies.Length > 0)
-	//	{
-	//		stateMachine.SetState(nameof(AIFleeingState));
-	//	}
-	//}
+	public void CheckForOpps()
+	{
+		var enemies = enemyPereption.GetGameObjects();
+		if (fleer && enemies.Length > 0)
+		{
+			stateMachine.SetState(nameof(AIFleeingState));
+		}
+	}
 
 	private void Attack()
 	{
