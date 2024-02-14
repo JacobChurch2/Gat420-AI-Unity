@@ -22,7 +22,7 @@ public class AIAttackState : AIState
 
 	public override void OnExit()
 	{
-		
+
 	}
 
 	public override void OnUpdate()
