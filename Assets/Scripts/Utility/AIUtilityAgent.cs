@@ -8,46 +8,46 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class AIUtilityAgent : AIAgent
 {
-	[SerializeField] AIPerception perception;
-	[SerializeField] Animator animator;
+    [SerializeField] AIPerception perception;
+    [SerializeField] Animator animator;
 
-	[SerializeField] AIUtilityNeed[] needs;
-	[SerializeField, Range(0, 1), Tooltip("minimum score to use utlity object")] float scoreThreshold = 0.2f;
+    [SerializeField] AIUtilityNeed[] needs;
+    [SerializeField, Range(0, 1), Tooltip("minimum score to use utlity object")] float scoreThreshold = 0.2f;
 
-	[Header("UI")]
-	[SerializeField] AIUIMeter meter;
+    [Header("UI")]
+    [SerializeField] AIUIMeter meter;
 
 
-	public AIUtilityObject activeUtilityObject { get; set; } = null;
+    public AIUtilityObject activeUtilityObject { get; set; } = null;
 
-	// property to calculate and return agent's happiness level based on its needs
-	public float happiness
-	{
-		get
-		{
-			// Total up total motives (desires) of all needs
-			float totalMotives = 0;
-            foreach (var need in needs)		
+    // property to calculate and return agent's happiness level based on its needs
+    public float happiness
+    {
+        get
+        {
+            // Total up total motives (desires) of all needs
+            float totalMotives = 0;
+            foreach (var need in needs)
             {
-				totalMotives += need.motive;
+                totalMotives += need.motive;
             }
             // Calculate happiness level based on the average fulfillment of needs
             // The lower the total motives (desires), the happier the agent
             // If the agent has a high amount of desires then they are unhappy (unfulfilled)
             return 1 - totalMotives / needs.Length; // 1 - (divide total motives by number of needs to get average)
-		}
-	}
+        }
+    }
 
-	private void OnValidate()
-	{
-		meter.text = "Happiness";
-	}
+    private void OnValidate()
+    {
+        meter.text = "Happiness";
+    }
 
-	// initialize needs array if not assigned in the editor
-	void Start()
-	{
-		needs ??= GetComponentsInChildren<AIUtilityNeed>();
-	}
+    // initialize needs array if not assigned in the editor
+    void Start()
+    {
+        needs ??= GetComponentsInChildren<AIUtilityNeed>();
+    }
 
     void Update()
     {
@@ -79,67 +79,76 @@ public class AIUtilityAgent : AIAgent
     }
 
     private void LateUpdate()
-	{
-		meter.value = happiness;
-	}
+    {
+        meter.value = happiness;
+        if (happiness < 0.3)
+        {
+            animator.SetBool("Happy", false);
+            if (activeUtilityObject)
+            {
+                animator.SetBool(activeUtilityObject.animationName, false);
+            }
+            movement.velocity = Vector3.zero;
+        }
+    }
 
-	IEnumerator UseUtilityCR(AIUtilityObject utilityObject)
-	{
-		// move to utility position
-		movement.MoveTowards(utilityObject.target.transform.position);
+    IEnumerator UseUtilityCR(AIUtilityObject utilityObject)
+    {
+        // move to utility position
+        movement.MoveTowards(utilityObject.target.transform.position);
 
-		// wait until at destination position
-		yield return new WaitUntil(() => Vector3.Distance(transform.position, movement.destination) < 1);
+        // wait until at destination position
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, movement.destination) < 1);
 
-		// play animation
-		animator.SetBool(utilityObject.animationName, true);
+        // play animation
+        animator.SetBool(utilityObject.animationName, true);
 
-		// wait duration
-		yield return new WaitForSeconds(utilityObject.duration);
+        // wait duration
+        yield return new WaitForSeconds(utilityObject.duration);
 
-		// stop animation
-		animator.SetBool(utilityObject.animationName, false);
-		
-		// apply utility
-		ApplyUtility(utilityObject);
+        // stop animation
+        animator.SetBool(utilityObject.animationName, false);
 
-		// set active utility object to null (done using)
-		activeUtilityObject = null;
+        // apply utility
+        ApplyUtility(utilityObject);
 
-		yield return null;
-	}
+        // set active utility object to null (done using)
+        activeUtilityObject = null;
+
+        yield return null;
+    }
 
 
-	void ApplyUtility(AIUtilityObject utilityObject)
-	{
-		foreach (var effector in utilityObject.effectors)
-		{
-			AIUtilityNeed need = GetNeedByType(effector.type);
-			if (need == null) continue;
+    void ApplyUtility(AIUtilityObject utilityObject)
+    {
+        foreach (var effector in utilityObject.effectors)
+        {
+            AIUtilityNeed need = GetNeedByType(effector.type);
+            if (need == null) continue;
 
-			// apply effector change to input
-			need.input += effector.change;
-		}
-	}
+            // apply effector change to input
+            need.input += effector.change;
+        }
+    }
 
-	public float GetUtilityScore(AIUtilityObject utilityObject)
-	{
-		float score = 0;
-		foreach (var effector in utilityObject.effectors)
-		{
-			AIUtilityNeed need = GetNeedByType(effector.type);
-			if (need != null) 
-			{
-				float futureNeed = need.GetMotive(need.input + effector.change);
-				score += need.motive - futureNeed;
-			}
-		}
+    public float GetUtilityScore(AIUtilityObject utilityObject)
+    {
+        float score = 0;
+        foreach (var effector in utilityObject.effectors)
+        {
+            AIUtilityNeed need = GetNeedByType(effector.type);
+            if (need != null)
+            {
+                float futureNeed = need.GetMotive(need.input + effector.change);
+                score += need.motive - futureNeed;
+            }
+        }
 
-		return score;
-	}
+        return score;
+    }
 
-	AIUtilityNeed GetNeedByType(AIUtilityNeed.Type type)
-	{
-		return needs.FirstOrDefault(need => need.type == type);
-	}
+    AIUtilityNeed GetNeedByType(AIUtilityNeed.Type type)
+    {
+        return needs.FirstOrDefault(need => need.type == type);
+    }
 }
